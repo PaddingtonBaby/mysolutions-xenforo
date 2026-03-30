@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<templates>
+  <template type="public" title="mysolutions_list" version_id="1000010" version_string="1.0.0"><![CDATA[<xf:h1>Решения пользователя</xf:h1>
+
+<div class="block">
+  <div class="block-container">
+    <!-- Фильтрация -->
+    <div class="block-filterBar">
+      <div class="filterBar">
+        <div class="filterBar-filter">
+          <a class="filterBar-menuTrigger" data-xf-click="menu" role="button" tabindex="0" aria-expanded="false" aria-haspopup="true">
+                        {{ phrase('filters') }}
+                    </a>
+          <div class="menu" data-menu="menu" aria-hidden="true">
+            <div class="menu-content">
+              <xf:form action="{{ link('solutions') }}" ajax="true" class="menu-scroller">
+                <!-- Сортировка -->
+                <div class="menu-row menu-row--separated">
+                  <label for="ctrl_solution_order">{{ phrase('sort_by') }}</label>
+                  <div class="u-inputSpacer">
+                    <xf:select name="order" id="ctrl_solution_order" value="{$order}" aria-labelledby="ctrl_solution_order" onchange="window.location = this.value;">
+                      <xf:option value="{{ link('solutions', null, {'user_id': $profileUser.user_id, 'order': 'asc'}) }}" selected="{{ $order == 'asc' }}">
+                        {{ phrase('from_oldest_to_newest') }}
+                      </xf:option>
+                      <xf:option value="{{ link('solutions', null, {'user_id': $profileUser.user_id, 'order': 'desc'}) }}" selected="{{ $order == 'desc' }}">
+                        {{ phrase('from_newest_to_oldest') }}
+                      </xf:option>
+                    </xf:select>
+                  </div>
+                </div>
+              </xf:form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- main -->
+    <div class="block-body" style="padding-top: 7px;">
+      <xf:if is="!$total">
+        <div class="block-row">У этого пользователя пока нет решений.</div>
+        <xf:else />
+        <ol class="block-body">
+          <xf:foreach loop="$solutions" value="$solution">
+            <li class="block-row contentRow" style="align-items:center;">
+              <div class="message-attribution-user">
+                <xf:avatar user="$solution.Thread.User" size="s" />
+              </div>
+              <div class="contentRow-main">
+                <h3 class="contentRow-title">
+                  <a href="{{ link('threads', $solution.Thread) }}">
+                    {{ $solution.Thread.title }}
+                  </a>
+                </h3>
+                <div class="contentRow-minor">
+                  <ul class="listInline listInline--bullet">
+                    <li><xf:username user="$solution.Thread.User" /></li>
+                    <li><xf:date time="$solution.Thread.post_date" /></li>
+                  </ul>
+                </div>
+              </div>
+              <div class="contentRow-minor" style="text-align:right;">
+                <a href="{{ link('posts', $solution.Solution) }}">Решение</a>
+                <br>
+                <xf:date time="$solution.Thread.last_post_date" />
+              </div>
+            </li>
+          </xf:foreach>
+        </ol>
+      </xf:if>
+    </div>
+
+    <!-- pag -->
+  </div>
+  <div class="block-outer block-outer--after">
+    <xf:pagenav link="solutions" params="{{ {'user_id': $profileUser.user_id, 'order': $order} }}" page="{$page}" perpage="{$perPage}" total="{$total}" />
+  </div>
+</div>]]></template>
+</templates>

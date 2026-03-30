@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<phrases>
+  <phrase title="from_newest_to_oldest" version_id="1000010" version_string="1.0.0"><![CDATA[От новых к старым]]></phrase>
+  <phrase title="from_oldest_to_newest" version_id="1000010" version_string="1.0.0"><![CDATA[От старых к новым]]></phrase>
+  <phrase title="user_field_desc.solution_visibility" version_id="1000010" version_string="1.0.0"><![CDATA[Настройка отображения списка решений]]></phrase>
+  <phrase title="user_field_title.solution_visibility" version_id="1000010" version_string="1.0.0"><![CDATA[Кто видит Ваши решения?]]></phrase>
+  <phrase title="you_cannot_mark_solution_thread_closed" version_id="1000010" version_string="1.0.0"><![CDATA[Вы не можете изменить решение в закрытой теме.]]></phrase>
+</phrases>

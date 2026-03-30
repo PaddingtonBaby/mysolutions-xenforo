@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<template_modifications>
+  <modification type="public" template="member_macros" modification_key="member_macros_link" description="Добавление линка для перехода на статистику" execution_order="10" enabled="1" action="str_replace">
+    <find><![CDATA[			<dd>
+				{$user.question_solution_count|number}
+			</dd>]]></find>
+    <replace><![CDATA[			<dd>
+				<a href="{{ link('solutions', '', {'user_id': $user.user_id}) }}" class="fauxBlockLink-linkRow u-concealed">
+				{$user.question_solution_count|number}
+				</a>
+			</dd>]]></replace>
+  </modification>
+  <modification type="public" template="post_mark_solution" modification_key="solutions_mark_solution" description="Пользователь не может изменять решение в закрытой теме." execution_order="10" enabled="1" action="str_replace">
+    <find><![CDATA[<xf:title>{{ phrase('confirm_action') }}</xf:title>
+
+<xf:form action="{{ link('posts/mark-solution', $post) }}" ajax="true" class="block">
+	<div class="block-container">
+		<div class="block-body">
+			<xf:inforow rowtype="confirm">
+				<xf:if is="$type == 'add' OR $type == 'replace'">
+					{{ phrase('please_confirm_you_want_mark_this_post_as_solution') }}
+				<xf:else />
+					{{ phrase('please_confirm_you_want_unmark_this_post_as_solution') }}
+				</xf:if>
+			</xf:inforow>
+
+			<xf:if is="$type == 'replace'">
+				<xf:inforow>
+					<div class="block-rowMessage block-rowMessage--important block-rowMessage--iconic">
+						{{ phrase('this_will_replace_existing_solution_x', {'url': link('posts', $existingSolution)}) }}
+
+						<div>
+							{{ bb_code('[QUOTE=%s]%s[/QUOTE]'|format($existingSolution.username, $existingSolution.message), 'question_thread_solution', $existingSolution) }}
+						</div>
+					</div>
+				</xf:inforow>
+			</xf:if>
+		</div>
+		<xf:submitrow rowtype="simple" icon="confirm" />
+		<xf:hiddenval name="confirm" value="1" />
+	</div>
+</xf:form>]]></find>
+    <replace><![CDATA[<xf:title>{{ phrase('confirm_action') }}</xf:title>
+
+<xf:if is="!$thread.discussion_open && !$xf.visitor.is_admin && !$xf.visitor.is_moderator">
+    <div class="blockMessage blockMessage--error">
+        {{ phrase('you_cannot_mark_solution_thread_closed') }}
+    </div>
+<xf:else />
+    <xf:form action="{{ link('posts/mark-solution', $post) }}" ajax="true" class="block">
+        <div class="block-container">
+            <div class="block-body">
+                <xf:inforow rowtype="confirm">
+                    <xf:if is="$type == 'add' OR $type == 'replace'">
+                        {{ phrase('please_confirm_you_want_mark_this_post_as_solution') }}
+                    <xf:else />
+                        {{ phrase('please_confirm_you_want_unmark_this_post_as_solution') }}
+                    </xf:if>
+                </xf:inforow>
+
+                <xf:if is="$type == 'replace'">
+                    <xf:inforow>
+                        <div class="block-rowMessage block-rowMessage--important block-rowMessage--iconic">
+                            {{ phrase('this_will_replace_existing_solution_x', {'url': link('posts', $existingSolution)}) }}
+
+                            <div>
+                                {{ bb_code('[QUOTE=%s]%s[/QUOTE]'|format($existingSolution.username, $existingSolution.message), 'question_thread_solution', $existingSolution) }}
+                            </div>
+                        </div>
+                    </xf:inforow>
+                </xf:if>
+            </div>
+            <xf:submitrow rowtype="simple" icon="confirm" />
+            <xf:hiddenval name="confirm" value="1" />
+        </div>
+    </xf:form>
+</xf:if>]]></replace>
+  </modification>
+</template_modifications>
